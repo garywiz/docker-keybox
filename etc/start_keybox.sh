@@ -22,18 +22,29 @@ fi
 cd $APPS_DIR/KeyBox-jetty/jetty
 java -Xms1024m -Xmx1024m -jar start.jar &
 
-sleep 2
+sleep 1
 
-if [ "$(jobs)" != "" ]; then
-  echo PID file created with $!
-  echo $! >/tmp/keybox.pid
-  disown -a
-  exit
+if [ "$(jobs)" == "" ]; then
+  wait $!
+  joberror=$?
+  echo "Keybox did not start. Exit code = $joberror"
+  exit $joberror
 fi
 
-wait $!
-joberror=$?
+while [ "$ok" != "yes" ]; do
+  if [[ "$(wget -q -t 1 --no-check-certificate -O- https://localhost:8443)" =~ /.*loginSubmit_auth.*/ ]]; then
+    echo "Valid login page detected -- KeyBox looks ready"
+    ok="yes"
+  elif [ "$ok" == "nnnnnnn" ]; then
+    echo "KeyBox did not respond with valid results after 7 seconds."
+    [ "$(jobs)" != "" ] && kill %1
+    exit 1
+  else
+    sleep 1
+    ok="n$ok"
+  fi
+done  
 
-echo "Keybox did not start. Exit code = $joberror"
-exit $joberror
-
+echo PID file /tmp/keybox.pid created with PID $!
+echo $! >/tmp/keybox.pid
+disown -a
