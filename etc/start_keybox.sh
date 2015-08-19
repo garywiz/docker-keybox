@@ -20,4 +20,20 @@ if [ ! -f $VAR_KBCONFIG ]; then
 fi
 
 cd $APPS_DIR/KeyBox-jetty/jetty
-java -Xms1024m -Xmx1024m -jar start.jar
+java -Xms1024m -Xmx1024m -jar start.jar &
+
+sleep 2
+
+if [ "$(jobs)" != "" ]; then
+  echo PID file created with $!
+  echo $! >/tmp/keybox.pid
+  disown -a
+  exit
+fi
+
+wait $!
+joberror=$?
+
+echo "Keybox did not start. Exit code = $joberror"
+exit $joberror
+

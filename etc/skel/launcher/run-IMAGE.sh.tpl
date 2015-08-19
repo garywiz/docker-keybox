@@ -16,7 +16,7 @@ AUTHKEYS_REFRESH=120
 # Enable two-factor authentication
 ENABLE_OTP=true
 
-# Enable key management.  If 'false' then this is just a bastian host for shell access.
+# Enable key management.  If 'false' then this is just a bastion host for shell access.
 CONFIG_ENABLE_KEY_MANAGEMENT=true
 
 # LOGGING Can be set to:
