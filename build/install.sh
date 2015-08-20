@@ -31,7 +31,7 @@ fi
 # Add additional setup commands for your production image here, if any.  However, the best
 # way is to put things in 100-install.sh.
 # ...
-n
+
 cd /setup
 
 wget --progress=dot:mega --no-check-certificate $KEYBOX_URL
