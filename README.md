@@ -11,7 +11,7 @@ Thanks to [Sean Kavanagh](https://github.com/skavanagh) for designing and writin
 
 ##Quick Start
 
-You can get started quickly using the image hosted on Docker Hub.  For example, to instantly create a running self-contained KeyBox server daemon:
+You can get started quickly using the image hosted on Docker Hub.  For example, to quickly create a running self-contained KeyBox server daemon:
 
     $ docker pull garywiz/docker-keybox
     $ docker run -d -p 8443:8443 garywiz/docker-keybox
@@ -33,7 +33,9 @@ Or, if you want to have local persistent storage:
 
 Now, all persistent data will be stored in the `docker-keybox-storage` directory.  The container itself is therefore entirely disposable.
 
-The `run-docker-keybox.sh` script is designed to be self-documenting and you can edit it to change start-up options and storage options.
+The `run-docker-keybox.sh` script is designed to be self-documenting and you can edit it to change start-up options and storage options.  You can get up-to-date help on the image's features like this:
+
+   $ docker run -i --rm garywiz/docker-keybox --task get-help
 
 ##Full Option List
 
@@ -64,7 +66,8 @@ When configuring attached storage, there are two considerations:
 
 Both are pretty easy.  For example, assume you are going to store persistent data on your local drive in `/persist/keybox`.   Providing the directory exists, you can just do this:
 
-    $ docker run -d -v /persist/keybox:/apps/var garywiz/docker-keybox --create anyuser:/apps/var
+    $ docker run -d -v /persist/keybox:/apps/var garywiz/docker-keybox \
+         --create-user anyuser:/apps/var
 
 When the container starts, it will assure that all internal services run as a new user called `anyuser` whose UID/GID credentials match the credentials your host box has assigned to `/persist/keybox`.
 
@@ -78,11 +81,9 @@ By default, all container logs will be sent to `stdout` and can be viewed using 
 
 If this isn't suitable, there are two additional options that can be specified using the `CONFIG_LOGGING` environment variable:
 
->**`CONFIG_LOGGING="file"`**
->This setting will cause all logging information to be sent to `var/log/syslog.log` either inside the container or on attached storage.
+**`CONFIG_LOGGING="file"`** - This setting will cause all logging information to be sent to `var/log/syslog.log` either inside the container or on attached storage.
 
->**`CONFIG_LOGGING="syslog:hostname"`**
->In this case, you need to specify `hostname` as the destination for logging.  The specified host must have a syslog-compatible daemon running on UDP port 514.
+**`CONFIG_LOGGING="syslog:hostname"`** - In this case, you need to specify `hostname` as the destination for logging.  The specified host must have a syslog-compatible daemon running on UDP port 514.
 
 ##Using Your Own SSL Keys
 
@@ -104,6 +105,7 @@ This is easy if you're using the provided launcher, as described above.  The fir
 	$ ./run-docker-keybox.sh -d
     Using attached storage at .../docker-keybox-storage
     00e9615bc51d63f9a150186482b3258d1c24b4f21ca0c781ae6e1717d9c97abc
+    $
 
 Now that your container is running, you should see the following in `docker-keybox-storage`:
 
