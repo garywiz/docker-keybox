@@ -16,7 +16,7 @@ You can get started quickly using the image hosted on Docker Hub.  For example, 
     $ docker pull garywiz/docker-keybox
     $ docker run -d -p 8443:8443 garywiz/docker-keybox
 
-Within a few seconds, you should be able to use KeyBox by going to `https://localhost:8443/`.  
+Within a few seconds, you should be able to use KeyBox by going to `https://localhost:8443/`.    The default login user is `admin` with a password of `changeme`.
 
 If you want to store persistent KeyBox data locally outside the image, you can use the built-in launcher script.   Extract the launcher script from the image like this:
 
