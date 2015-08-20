@@ -27,7 +27,7 @@ enableOTP=%(CONFIG_ENABLE_OTP)
 #enable key management
 keyManagementEnabled=%(CONFIG_ENABLE_KEY_MANAGEMENT)
 #set to true to generate keys when added/managed by users and enforce strong passphrases set to false to allow users to set their own public key
-forceUserKeyGeneration=true
+forceUserKeyGeneration=%(CONFIG_FORCE_KEY_GENERATION)
 #authorized_keys refresh interval in minutes (no refresh for <=0)
 authKeysRefreshInterval=%(CONFIG_AUTHKEYS_REFRESH)
 #Regular expression to enforce password policy

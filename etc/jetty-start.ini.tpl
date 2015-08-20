@@ -97,12 +97,15 @@ jsp-impl=apache
 # is required to put JSTL on the container classpath
 
 # --------------------------------------- 
-# Module: https
---module=https
-### HTTP Connector Configuration
+# Module: https or http, depending upon the setting of CONFIG_EXT_SSL_HOSTNAME
 
-## HTTP port to listen on
+%(CONFIG_EXT_SSL_HOSTNAME:||
+--module=http
 jetty.port=8443
+|
+--module=https
+jetty.port=8443
+)
 
 ## HTTP idle timeout in milliseconds
 http.timeout=30000
@@ -115,3 +118,10 @@ http.timeout=30000
 # http.acceptors=1
 # http.selectorPriorityDelta=0
 # http.acceptorPriorityDelta=0
+
+# Setup keystore
+jetty.keystore=../../var/certs/jetty.keystore
+jetty.truststore=../../var/certs/jetty.keystore
+jetty.keystore.password=%(`jpassword jetty %(KEYSTORE_PASSWORD) 2>&1 | sed -n '/^OBF/p'`)
+jetty.keymanager.password=%(`jpassword jetty %(EXPORT_PASSWORD) 2>&1 | sed -n '/^OBF/p'`)
+jetty.truststore.password=%(`jpassword jetty %(KEYSTORE_PASSWORD) 2>&1 | sed -n '/^OBF/p'`)

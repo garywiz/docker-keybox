@@ -11,4 +11,6 @@ if [ "$EMACS" == "t" ]; then
 fi
 
 alias apps="cd $APPS_DIR"
+alias NE="stty -echo"
 
+export PATH=$JAVA_HOME/bin:$PATH

@@ -4,6 +4,9 @@ function relpath() { python3 -c "import os,sys;print(os.path.relpath(*(sys.argv[
 
 cd /setup
 
+# add additional software needed for SSL key generation and maintenance
+apk --update add openssl
+
 # remove existing chaperone.d and startup.d from /apps so none linger
 rm -rf /apps; mkdir /apps
 
@@ -37,16 +40,13 @@ tar xzf /setup/keybox-jetty-v2.83_02.tar.gz
 # on an upgrade or rebuild)
 
 JETTY=/apps/KeyBox-jetty/jetty
-ETC_JETTY_START=/apps/etc/jetty-start.ini
-VAR_KBCONFIG=/apps/var/keydb/KeyBoxConfig.properties
 
-if [ ! -f $ETC_JETTY_START ]; then
-  cd $JETTY
-  mv start.ini $ETC_JETTY_START
-  ln -s $(relpath $ETC_JETTY_START) start.ini
-fi
+# These won't exist until runtime but we define here because it simplifies
+# assuring relative paths are correct.
+VAR_KBCONFIG=/apps/var/config/KeyBoxConfig.properties
+VAR_JETTY_START=/apps/var/config/jetty-start.ini
 
-# We need to create a symlink to the /var/keydb/KeyBoxConfig.properties file, since this
+# We need to create a symlink to the /var/config/KeyBoxConfig.properties file, since this
 # will need to be writable.  But, the actual location may vary based upon container
 # configuration.
 
@@ -54,12 +54,20 @@ cd $JETTY/keybox/WEB-INF/classes
 rm -rf KeyBoxConfig.properties
 ln -s $(relpath $VAR_KBCONFIG)
 
+# Same with jetty startup so we can put the keystore in attached storage
+
+cd $JETTY
+rm -rf start.ini
+ln -s $(relpath $VAR_JETTY_START) start.ini
+
 # Move/replace the initial database directory to etc so we can initialize /var whenever a container
 # starts.
 
+cd $JETTY/keybox/WEB-INF/classes
 rm -rf /apps/etc/keydb-dist
 mv keydb /apps/etc/keydb-dist
 ln -s $(relpath /apps/var/keydb)
 
-rm -rf /setup
+# General cleanup
+rm -rf /setup /tmp/* /var/tmp/* /var/cache/apk/*
 chown -R runapps: /apps    # for full-container execution
