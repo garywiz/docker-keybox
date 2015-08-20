@@ -46,11 +46,11 @@ while [ "$ok" != "yes" -a "$1" != "-n" ]; do
     echo "Valid login page detected -- KeyBox looks ready"
     ok="yes"
   elif [ "$ok" == "nnnnnnn" ]; then
-    echo "KeyBox did not respond with valid results after 7 seconds."
+    echo "KeyBox did not respond with valid results after 15 seconds."
     [ "$(jobs)" != "" ] && kill %1
     exit 1
   else
-    sleep 1
+    sleep 2
     ok="n$ok"
   fi
 done  
