@@ -1,4 +1,4 @@
-#Keybox Docker Image
+#KeyBox Docker Image
 
 KeyBox is an open-source web-based SSH console that centrally manages administrative access to systems. Web-based administration is combined with management and distribution of user's public SSH keys. Key management and administration is based on profiles assigned to defined users.
 
@@ -35,7 +35,7 @@ Now, all persistent data will be stored in the `docker-keybox-storage` directory
 
 The `run-docker-keybox.sh` script is designed to be self-documenting and you can edit it to change start-up options and storage options.  You can get up-to-date help on the image's features like this:
 
-   $ docker run -i --rm garywiz/docker-keybox --task get-help
+    $ docker run -i --rm garywiz/docker-keybox --task get-help
 
 ##Full Option List
 
