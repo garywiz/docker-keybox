@@ -3,7 +3,7 @@
 # Set up defaults
 
 export CERT_KEY=ssl-cert-${CONFIG_EXT_SSL_HOSTNAME}.key
-export CERT_PEM=ssl-cert-${CONFIG_EXT_SSL_HOSTNAME}.pem   # Usually .crt or .pem file
+export CERT_PEM=ssl-cert-${CONFIG_EXT_SSL_HOSTNAME}.crt
 
 export KEYSTORE_PASSWORD=kbox-kstore-pw
 export EXPORT_PASSWORD=kbox-export-pw

@@ -40,7 +40,9 @@ if [ "$(jobs)" == "" ]; then
 fi
 
 while [ "$ok" != "yes" -a "$1" != "-n" ]; do
-  if [[ "$(wget -q -t 1 --no-check-certificate -O- https://localhost:8443)" =~ /.*loginSubmit_auth.*/ ]]; then
+  checkurl="https://localhost:8443"
+  [ "$CONFIG_EXT_SSL_HOSTNAME" == "" ] && checkurl="http://localhost:8443"
+  if [[ "$(wget -q -t 1 --no-check-certificate -O- $checkurl)" =~ /.*loginSubmit_auth.*/ ]]; then
     echo "Valid login page detected -- KeyBox looks ready"
     ok="yes"
   elif [ "$ok" == "nnnnnnn" ]; then

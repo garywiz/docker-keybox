@@ -9,7 +9,7 @@
 if [ "$CONFIG_EXT_SSL_HOSTNAME" != "" ]; then
     # Generate self-signed certs if they aren't here.
 
-    certpem=$VAR_DIR/certs/ssl-cert-$CONFIG_EXT_SSL_HOSTNAME.pem
+    certpem=$VAR_DIR/certs/ssl-cert-$CONFIG_EXT_SSL_HOSTNAME.crt
     certkey=$VAR_DIR/certs/ssl-cert-$CONFIG_EXT_SSL_HOSTNAME.key
 
     if [ ! -f $certpem ]; then

@@ -8,7 +8,7 @@ IMAGE="%(PARENT_IMAGE)"
 INTERACTIVE_SHELL="/bin/bash" 	# used if -d is not specified
 
 EXT_HOSTNAME=%(CONFIG_EXT_HOSTNAME:-localhost)
-EXT_HTTPD_PORT=8443
+EXT_PORT=8443
 
 # Number of seconds to refresh authorized_keys files.  Set to 0 for no refresh.
 AUTHKEYS_REFRESH=120
@@ -17,13 +17,23 @@ AUTHKEYS_REFRESH=120
 ENABLE_OTP=true
 
 # Enable key management.  If 'false' then this is just a bastion host for shell access.
-CONFIG_ENABLE_KEY_MANAGEMENT=true
+ENABLE_KEY_MANAGEMENT=true
+
+# If 'true', then users will be forced to generate new SSL keys.  If 'false', they can
+# provide their own keys by cutting-and-pasting their public key.  (They can't currently
+# do both).
+FORCE_KEY_GENERATION=true
 
 # LOGGING Can be set to:
 #   stdout      - all logging goes to stdout (the docker way)
 #   file        - all logging goes to a var/log/syslog.log on attached storage
 #   syslog:host - all logging goes to the syslog host
 LOGGING=stdout
+
+# If you want to run over HTTP rather than HTTPD, then set EXT_SSL_HOSTNAME to "" below, and choose a
+# port for HTTP traffic.   KeyBox does not support both.
+#EXT_SSL_HOSTNAME=""
+#EXT_PORT=8080
 
 # If this directory exists and is writable, then it will be used
 # as attached storage
@@ -32,7 +42,13 @@ STORAGE_USER="$USER"
 
 # Docker options
 
-OPTIONS="-e CONFIG_LOGGING=$LOGGING -e CONFIG_EXT_HTTPD_PORT=$EXT_HTTPD_PORT -p $EXT_HTTPD_PORT:8443"
+OPTIONS="\
+  -e CONFIG_LOGGING=$LOGGING \
+  -e CONFIG_EXT_HOSTNAME=$EXT_HOSTNAME \
+  -e CONFIG_EXT_SSL_HOSTNAME=${EXT_SSL_HOSTNAME:-$EXT_HOSTNAME} \
+  -e CONFIG_ENABLE_KEY_MANAGEMENT=$ENABLE_KEY_MANAGEMENT \
+  -e CONFIG_FORCE_KEY_GENERATION=$FORCE_KEY_GENERATION \
+  -p $EXT_PORT:8443"
 
 # The rest should be OK...
 
