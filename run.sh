@@ -10,9 +10,6 @@ INTERACTIVE_SHELL="/bin/bash"
 
 EXT_HOSTNAME=localhost
 
-# Uncomment to hardcode ports for startup.  Command line still overrides.
-#PORTOPT="-p x:y -p x:y"
-
 usage() {
   echo "Usage: run.sh [-d] [-p port#] [-h] [extra-chaperone-options]"
   echo "       Run $IMAGE as a daemon or interactively (the default)."

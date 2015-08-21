@@ -1,5 +1,5 @@
 Help for Image: %(PARENT_IMAGE) Version %(IMAGE_VERSION) 
-        KeyBox: %(`sed -n 's/^KEYBOX_VERSION=//p' $APPS_DIR/build/install.sh`)
+        KeyBox: %(KEYBOX_VERSION)
      Chaperone: %(`chaperone --version | awk '/This is/{print $5}'`)
    Oracle Java: %(`java -version 2>&1 | sed -n -e 's|.*"\(.*\)"|\1|p'`)
          Linux: %(`cat /etc/issue | head -1 | sed -e 's/Welcome to //' -e 's/ \\.*$//'`)

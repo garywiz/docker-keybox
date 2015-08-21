@@ -15,7 +15,11 @@ rm -rf /apps; mkdir /apps
 
 # copy everything from setup to the root /apps
 echo copying application files to /apps ...
-tar cf - --exclude var --exclude KeyBox-jetty . | (cd /apps; tar xf -)
+tar cf - --exclude ./build --exclude ./build.sh --exclude ./run.sh --exclude var --exclude KeyBox-jetty . \
+    | (cd /apps; tar xf -)
+
+# update version in the image
+sed "s/^KEYBOX_VERSION=.*/KEYBOX_VERSION=$KEYBOX_VERSION/" </setup/etc/version.inc >/apps/etc/version.inc
 
 # If there is an 100-install.sh executable script available in startup.d, then incorporate
 # it into our image build and comment them out so the next build documents, but does not

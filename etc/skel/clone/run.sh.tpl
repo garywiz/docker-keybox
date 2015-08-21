@@ -5,9 +5,6 @@
 IMAGE="%(PARENT_IMAGE)"
 INTERACTIVE_SHELL="/bin/bash"
 
-# Uncomment to include port settings
-#PORTOPT="-p x:y"
-
 EXT_HOSTNAME=localhost
 
 # Uncomment to hardcode ports for startup.  Command line still overrides.
@@ -79,5 +76,7 @@ fi
 # directory.
 
 MOUNT=${PWD#/}; MOUNT=/${MOUNT%%/*} # extract user mountpoint
-docker run $options -v $MOUNT:$MOUNT $PORTOPT --env CONFIG_EXT_HOSTNAME=$EXT_HOSTNAME $IMAGE \
+docker run $options -v $MOUNT:$MOUNT $PORTOPT --env CONFIG_EXT_HOSTNAME=$EXT_HOSTNAME \
+   -e CONFIG_LOGGING=file -e EMACS="$EMACS" \
+   $IMAGE \
    --create $USER:$APPS/chaperone.d --config $APPS/chaperone.d $* $shellopt
