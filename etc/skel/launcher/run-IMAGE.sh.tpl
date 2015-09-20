@@ -24,6 +24,11 @@ ENABLE_KEY_MANAGEMENT=true
 # do both).
 FORCE_KEY_GENERATION=true
 
+# If 'true', then enable the auditing log.
+ENABLE_AUDIT=false
+# When auditing is enabled, this determines how many days audit entries will be kept
+DELETE_AUDIT_AFTER=90
+
 # LOGGING Can be set to:
 #   stdout      - all logging goes to stdout (the docker way)
 #   file        - all logging goes to a var/log/syslog.log on attached storage
@@ -48,6 +53,8 @@ OPTIONS="\
   -e CONFIG_EXT_SSL_HOSTNAME=${EXT_SSL_HOSTNAME:-$EXT_HOSTNAME} \
   -e CONFIG_ENABLE_KEY_MANAGEMENT=$ENABLE_KEY_MANAGEMENT \
   -e CONFIG_FORCE_KEY_GENERATION=$FORCE_KEY_GENERATION \
+  -e CONFIG_ENABLE_AUDIT=$ENABLE_AUDIT \
+  -e CONFIG_DELETE_AUDIT_AFTER=$DELETE_AUDIT_AFTER \
   -p $EXT_PORT:8443"
 
 # The rest should be OK...

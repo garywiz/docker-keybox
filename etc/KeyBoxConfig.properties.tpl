@@ -14,10 +14,10 @@ privateKey=
 publicKey=
 #default passphrase, leave blank for key without passphrase
 defaultSSHPassphrase=${randomPassphrase}
-#enable audit
-enableAudit=false
-#keep audit logs for in days
-deleteAuditLogAfter=90
+#enable audit (original default = false)
+enableAudit=%(CONFIG_ENABLE_AUDIT)
+#keep audit logs for in days (original default = 90)
+deleteAuditLogAfter=%(CONFIG_DELETE_AUDIT_AFTER)
 #default timeout in minutes for websocket connection (no timeout for <=0)
 websocketTimeout=0
 #enable SSH agent forwarding
