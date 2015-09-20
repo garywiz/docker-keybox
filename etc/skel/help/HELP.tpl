@@ -24,11 +24,11 @@ You will then have a script called %(DEFAULT_LAUNCHER) which allows you
 to keep the keys, certificates, and other data in attached storage.
 
 So, if you say:
-    mkdir keybox-storage
+    mkdir docker-keybox-storage
     ./%(DEFAULT_LAUNCHER) -d
 
 Keybox will run as a daemon and all persistent data will be stored
-in the 'keybox-storage' directory.
+in the 'docker-keybox-storage' directory.
 
 The launcher is highly customizable and if you read it, you will see
 all relevant KeyBox configuration variables.  You can also put your own
