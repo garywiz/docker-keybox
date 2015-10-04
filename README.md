@@ -51,6 +51,7 @@ If you want to invent your own start-up, or are using an orchestration tool, her
       -e CONFIG_DELETE_AUDIT_AFTER=90 \
       -e CONFIG_AUDIT_LOG_APPENDER="" \
       -e CONFIG_FORCE_KEY_GENERATION=true \
+      -e CONFIG_SERVER_ALIVE_SECS=60 \
       -e CONFIG_EXT_SSL_HOSTNAME=localhost
 
 * **`CONFIG_LOGGING`**: Either `stdout` (the default), `file`, or `syslog:host` (see "Logging Configuration" below).
