@@ -28,7 +28,8 @@ tpl_envcp --overwrite $APPS_DIR/etc/jetty-start.ini.tpl $VAR_SSLXML
 # Now go ahead and fork off Jetty and keybox
 
 cd $APPS_DIR/KeyBox-jetty/jetty
-java -Xms1024m -Xmx1024m -jar start.jar &
+rm -f /tmp/start.properties
+java -Xms1024m -Xmx1024m -jar start.jar --exec-properties=/tmp/start.properties &
 
 sleep 1
 

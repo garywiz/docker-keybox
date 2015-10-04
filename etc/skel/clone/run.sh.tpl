@@ -29,11 +29,14 @@ cd ..
 options="-t -i -e TERM=$TERM --rm=true"
 shellopt="/bin/bash --rcfile $APPS/bash.bashrc"
 
-while getopts ":-dp:" o; do
+while getopts ":-dp:n:" o; do
   case "$o" in
     d)
       options="-d"
       shellopt=""
+      ;;
+    n)
+      options="$options --name $OPTARG"
       ;;
     p)
       PORTOPT="-p $OPTARG"
@@ -53,7 +56,7 @@ shift $((OPTIND-1))
 
 if [ "$PORTOPT" == "" ]; then
   exposed=`docker inspect $IMAGE | sed -ne 's/^ *"\([0-9]*\)\/tcp".*$/\1/p' | sort -u`
-  ncprog=`which nc`
+  ncprog=`which nc 2>/dev/null`
   if [ "$exposed" != "" -a "$ncprog" != "" ]; then
     PORTOPT=""
     for PORT in $exposed; do
@@ -76,7 +79,9 @@ fi
 # directory.
 
 MOUNT=${PWD#/}; MOUNT=/${MOUNT%%/*} # extract user mountpoint
-docker run $options -v $MOUNT:$MOUNT $PORTOPT --env CONFIG_EXT_HOSTNAME=$EXT_HOSTNAME \
+SELINUX_FLAG=$(sestatus 2>/dev/null | fgrep -q enabled && echo :z)
+
+docker run $options -v $MOUNT:$MOUNT$SELINUX_FLAG $PORTOPT --env CONFIG_EXT_HOSTNAME=$EXT_HOSTNAME \
    -e CONFIG_LOGGING=file -e EMACS="$EMACS" \
    $IMAGE \
    --create $USER:$APPS/chaperone.d --config $APPS/chaperone.d $* $shellopt

@@ -47,8 +47,9 @@ If you want to invent your own start-up, or are using an orchestration tool, her
       -e CONFIG_AUTHKEYS_REFRESH=120 \
       -e CONFIG_ENABLE_KEY_MANAGEMENT=true \
       -e CONFIG_ENABLE_OTP=true \
-      -e CONFIG_ENABLE_AUDIT=false \
+      -e CONFIG_ENABLE_INTERNAL_AUDIT=false \
       -e CONFIG_DELETE_AUDIT_AFTER=90 \
+      -e CONFIG_AUDIT_LOG_APPENDER="" \
       -e CONFIG_FORCE_KEY_GENERATION=true \
       -e CONFIG_EXT_SSL_HOSTNAME=localhost
 
@@ -56,8 +57,10 @@ If you want to invent your own start-up, or are using an orchestration tool, her
 * **`CONFIG_AUTHKEYS_REFRESH`**: If key management is enabled, this is the number of seconds that `authorized_keys` files on remote hosts will be refreshed.
 * **`CONFIG_ENABLE_KEY_MANAGEMENT`**: If 'true', then remote servers will be managed and keys will be pushed to `authorized_keys` files.  If 'false', then this is just a bastion host for terminal access.
 * **`CONFIG_ENABLE_OTP`**: If 'true', then two-factor authentication will be enabled.
-* **`CONFIG_ENABLE_AUDIT`**: If 'true', then auditing will be enabled.  Defaults to 'false'.
-* **`CONFIG_DELETE_AUDIT_AFTER`**: Set to the number of days audit logs will be kept.  Defaults to 90.
+* **`CONFIG_SERVER_ALIVE_SECS`**: Specifies the interval (in seconds) which will be used for keep-alive pings sent to backend servers.  Defaults to 60.
+* **`CONFIG_ENABLE_INTERNAL_AUDIT`**: If 'true', then internal audit logging will be enabled.  Defaults to 'false'.
+* **`CONFIG_DELETE_AUDIT_AFTER`**: Set to the number of days internal audit logs will be kept.  Defaults to 90.
+* **`CONFIG_AUDIT_LOG_APPENDER`**: If specified, this is a destination host which will be used for log4j audit logging.
 * **`CONFIG_FORCE_KEY_GENERATION`**: If 'true', then user keys will be generated and private keys will be downloaded automatically.  If 'false', then no key generation will occur and users can paste-in their own public keys.
 * **`CONFIG_EXT_SSL_HOSTNAME`**: This is the name of the SSL host.  It should match the actual hostname people will use to access the server.  If set to "blank", then KeyBox will run using standard HTTP.
 

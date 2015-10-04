@@ -13,6 +13,9 @@ EXT_PORT=8443
 # Number of seconds to refresh authorized_keys files.  Set to 0 for no refresh.
 AUTHKEYS_REFRESH=120
 
+# Ping SSH servers this often as a keep alive
+SERVER_ALIVE_SECS=60
+
 # Enable two-factor authentication
 ENABLE_OTP=true
 
@@ -24,10 +27,13 @@ ENABLE_KEY_MANAGEMENT=true
 # do both).
 FORCE_KEY_GENERATION=true
 
-# If 'true', then enable the auditing log.
-ENABLE_AUDIT=false
-# When auditing is enabled, this determines how many days audit entries will be kept
+# If 'true', then enable the internal auditing log
+ENABLE_INTERNAL_AUDIT=false
+# When internal auditing is enabled, this determines how many days audit entries will be kept
 DELETE_AUDIT_AFTER=90
+
+# Comment-out to provide a host which will be used for log4j logging.
+#AUDIT_LOG_APPENDER=
 
 # LOGGING Can be set to:
 #   stdout      - all logging goes to stdout (the docker way)
@@ -53,7 +59,9 @@ OPTIONS="\
   -e CONFIG_EXT_SSL_HOSTNAME=${EXT_SSL_HOSTNAME:-$EXT_HOSTNAME} \
   -e CONFIG_ENABLE_KEY_MANAGEMENT=$ENABLE_KEY_MANAGEMENT \
   -e CONFIG_FORCE_KEY_GENERATION=$FORCE_KEY_GENERATION \
-  -e CONFIG_ENABLE_AUDIT=$ENABLE_AUDIT \
+  -e CONFIG_ENABLE_INTERNAL_AUDIT=$ENABLE_INTERNAL_AUDIT \
+  -e CONFIG_AUDIT_LOG_APPENDER=${AUDIT_LOG_APPENDER:-} \
+  -e CONFIG_SERVER_ALIVE_SECS=$SERVER_ALIVE_SECS \
   -e CONFIG_DELETE_AUDIT_AFTER=$DELETE_AUDIT_AFTER \
   -p $EXT_PORT:8443"
 
@@ -69,7 +77,8 @@ fi
 
 
 if [ "$STORAGE_LOCATION" != "" -a -d "$STORAGE_LOCATION" -a -w "$STORAGE_LOCATION" ]; then
-  docker_opt="$docker_opt -v $STORAGE_LOCATION:/apps/var"
+  SELINUX_FLAG=$(sestatus 2>/dev/null | fgrep -q enabled && echo :z)
+  docker_opt="$docker_opt -v $STORAGE_LOCATION:/apps/var$SELINUX_FLAG"
   chap_opt="--create $STORAGE_USER:/apps/var"
   echo Using attached storage at $STORAGE_LOCATION
 fi

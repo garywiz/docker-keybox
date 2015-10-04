@@ -1,7 +1,7 @@
 #!/bin/bash
 
-KEYBOX_VERSION=2.83_02
-KEYBOX_URL=https://github.com/skavanagh/KeyBox/releases/download/v2.83.02/keybox-jetty-v$KEYBOX_VERSION.tar.gz
+KEYBOX_VERSION=2.84_00
+KEYBOX_URL=https://github.com/skavanagh/KeyBox/releases/download/v2.84.00/keybox-jetty-v$KEYBOX_VERSION.tar.gz
 
 function relpath() { python3 -c "import os,sys;print(os.path.relpath(*(sys.argv[1:])))" "$@"; }
 
@@ -41,7 +41,7 @@ cd /setup
 wget --progress=dot:mega --no-check-certificate $KEYBOX_URL
 
 cd /apps
-tar xzf /setup/keybox-jetty-v2.83_02.tar.gz
+tar xzf /setup/keybox-jetty-v$KEYBOX_VERSION.tar.gz
 
 # Move config files to our shared location unless they are already there (this could occur
 # on an upgrade or rebuild)

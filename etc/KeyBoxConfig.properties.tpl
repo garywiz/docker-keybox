@@ -15,9 +15,13 @@ publicKey=
 #default passphrase, leave blank for key without passphrase
 defaultSSHPassphrase=${randomPassphrase}
 #enable audit (original default = false)
-enableAudit=%(CONFIG_ENABLE_AUDIT)
+enableInternalAudit=%(CONFIG_ENABLE_INTERNAL_AUDIT)
 #keep audit logs for in days (original default = 90)
 deleteAuditLogAfter=%(CONFIG_DELETE_AUDIT_AFTER)
+#set an audit log server using log4j (ex: logstash)
+auditLogAppender=%(CONFIG_AUDIT_LOG_APPENDER:-)
+#The number of seconds that the client will wait before sending a null packet to the server
+serverAliveInterval=%(CONFIG_SERVER_ALIVE_SECS:-60)
 #default timeout in minutes for websocket connection (no timeout for <=0)
 websocketTimeout=0
 #enable SSH agent forwarding
