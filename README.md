@@ -1,4 +1,4 @@
-#KeyBox Docker Image
+# KeyBox Docker Image
 
 KeyBox is an open-source web-based SSH console that centrally manages administrative access to systems. Web-based administration is combined with management and distribution of user's public SSH keys. Key management and administration is based on profiles assigned to defined users.
 
@@ -9,7 +9,7 @@ Thanks to [Sean Kavanagh](https://github.com/skavanagh) for designing and writin
 *  Fully configurable using environment variables, including options for logging, and all configurable Keybox options.  A fully customized container can be started without the need to build a new image.
 * Automatically generates a self-signed SSL certificate matched to your domain, or allows you to easily add your own legitimate SSL certificate.
 
-##Quick Start
+## Quick Start
 
 You can get started quickly using the image hosted on Docker Hub.  For example, to quickly create a running self-contained KeyBox server daemon:
 
@@ -37,7 +37,7 @@ The `run-docker-keybox.sh` script is designed to be self-documenting and you can
 
     $ docker run -i --rm garywiz/docker-keybox --task get-help
 
-##Full Option List
+## Full Option List
 
 If you want to invent your own start-up, or are using an orchestration tool, here is a quick view of all the configuration options piled into one command along with their defaults:
 
@@ -65,7 +65,7 @@ If you want to invent your own start-up, or are using an orchestration tool, her
 * **`CONFIG_FORCE_KEY_GENERATION`**: If 'true', then user keys will be generated and private keys will be downloaded automatically.  If 'false', then no key generation will occur and users can paste-in their own public keys.
 * **`CONFIG_EXT_SSL_HOSTNAME`**: This is the name of the SSL host.  It should match the actual hostname people will use to access the server.  If set to "blank", then KeyBox will run using standard HTTP.
 
-##Configuring Attached Storage
+## Configuring Attached Storage
 
 When configuring attached storage, there are two considerations:
 
@@ -93,7 +93,7 @@ If this isn't suitable, there are two additional options that can be specified u
 
 **`CONFIG_LOGGING="syslog:hostname"`** - In this case, you need to specify `hostname` as the destination for logging.  The specified host must have a syslog-compatible daemon running on UDP port 514.
 
-##Using Your Own SSL Keys
+## Using Your Own SSL Keys
 
 By default, a self-signed SSL key will be generated automatically for you at start-up.  If attached storage is used, the key will be generated only once.  Otherwise, a new key will be created each time a new container starts.
 
@@ -133,7 +133,7 @@ The self-signed certificates is the file ending with `.crt` and the private key 
 
 Once you see that these are present, it's probably a good idea to stop (and even delete) your container, as all persistent data is now stored in `docker-keybox-storage`.
 
-####Replace the keys with your own
+#### Replace the keys with your own
 
 Note that the names of the certificate and keys will always look like this: `ssl-cert-<hostname>.crt`, where `<hostname>` will be the exact string you used with the `CONFIG_EXT_SSL_HOSTNAME` environment variable. 
 
@@ -146,6 +146,6 @@ If your keys are not already in `PEM` format, you may need to convert them using
 
 **IMPORTANT**: You will also need to delete the `jetty.keystore` file in the same directory.   This will cause the container start-up scripts to recognize your new key and rebuild the Jetty keystore file for you automatically.
 
-####Re-run the container
+#### Re-run the container
 
 Once you've replaced the certificates, you can simply restart the old container, or create a new container using the same attached storage location.  Your new certificate will then be in use.
