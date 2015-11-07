@@ -11,7 +11,7 @@ Thanks to [Sean Kavanagh](https://github.com/skavanagh) for designing and writin
 
 ## Quick Start
 
-You can get started quickly using the image hosted on Docker Hub.  For example, to quickly create a running self-contained KeyBox server daemon:
+You can get started quickly using the automated-build image hosted on Docker Hub.  For example, to quickly create a running self-contained KeyBox server daemon:
 
     $ docker pull garywiz/docker-keybox
     $ docker run -d -p 8443:8443 garywiz/docker-keybox
