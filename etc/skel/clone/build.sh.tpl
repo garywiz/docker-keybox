@@ -20,8 +20,8 @@ else
   echo Building "$prodimage" ...
 fi
 
-if [ ! -f build/Dockerfile ]; then
-  echo "Expecting to find Dockerfile in ./build ... not found!"
+if [ ! -f Dockerfile ]; then
+  echo "Expecting to find Dockerfile in current directory ... not found!"
   exit 1
 fi
 
@@ -29,4 +29,5 @@ fi
 sed "s/^IMAGE_NAME=.*/IMAGE_NAME=${prodimage/\//\\\/}/" <etc/version.inc >build/new_version.inc
 
 # Do the build
-tar czh --exclude '*~' --exclude 'var/*' . | docker build -t $prodimage -f build/Dockerfile -
+docker build -t $prodimage .
+

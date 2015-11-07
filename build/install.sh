@@ -1,7 +1,9 @@
 #!/bin/bash
 
-KEYBOX_VERSION=2.84_00
-KEYBOX_URL=https://github.com/skavanagh/KeyBox/releases/download/v2.84.00/keybox-jetty-v$KEYBOX_VERSION.tar.gz
+#Now set in Dockerfile
+#KEYBOX_VERSION=2.84_00
+
+KEYBOX_URL=https://github.com/skavanagh/KeyBox/releases/download/v${KEYBOX_VERSION/_/.}/keybox-jetty-v$KEYBOX_VERSION.tar.gz
 
 function relpath() { python3 -c "import os,sys;print(os.path.relpath(*(sys.argv[1:])))" "$@"; }
 
@@ -15,29 +17,16 @@ rm -rf /apps; mkdir /apps
 
 # copy everything from setup to the root /apps
 echo copying application files to /apps ...
-tar cf - --exclude ./build --exclude ./build.sh --exclude ./run.sh --exclude var --exclude KeyBox-jetty . \
+tar cf - --exclude .git --exclude Dockerfile --exclude ./build --exclude ./build.sh --exclude ./run.sh \
+    --exclude var --exclude KeyBox-jetty . \
     | (cd /apps; tar xf -)
 
 # update version in the image
 sed "s/^KEYBOX_VERSION=.*/KEYBOX_VERSION=$KEYBOX_VERSION/" </setup/etc/version.inc >/apps/etc/version.inc
 
-# If there is an 100-install.sh executable script available in startup.d, then incorporate
-# it into our image build and comment them out so the next build documents, but does not
-# include them.
-
-if [ -x startup.d/100-install.sh ]; then
-  # Execute these
-  ./startup.d/100-install.sh BUILD
-  # Comment them out so the install file can be incrementally used again.
-  sed -r '/AFTER THIS LINE/,$ s/^[ \t]*[^# \t].*/#\0/' startup.d/100-install.sh >/apps/startup.d/100-install.sh
-fi
-
-# Add additional setup commands for your production image here, if any.  However, the best
-# way is to put things in 100-install.sh.
-# ...
+# Get Keybox and install it
 
 cd /setup
-
 wget --progress=dot:mega --no-check-certificate $KEYBOX_URL
 
 cd /apps
@@ -76,5 +65,6 @@ mv keydb /apps/etc/keydb-dist
 ln -s $(relpath /apps/var/keydb)
 
 # General cleanup
-rm -rf /setup /tmp/* /var/tmp/* /var/cache/apk/*
+cd /
+rm -rf /setup /tmp/* /var/tmp/* /var/cache/apk/* /root/.cache
 chown -R runapps: /apps    # for full-container execution

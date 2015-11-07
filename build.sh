@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Will create a new KeyBox image
+# Will create a new KeyBox image.  Can also use "docker build" directly.  This just handles tagging
+# and simplifies construction.
 
 . etc/version.inc
 
@@ -13,9 +14,9 @@ prodimage="$IMAGE_NAME:$KEYBOX_VERSION"
 if [ "$1" != "" ]; then
   prodimage="$1"
 fi
-if [ ! -f build/Dockerfile ]; then
-  echo "Expecting to find Dockerfile in ./build ... not found!"
+if [ ! -f Dockerfile ]; then
+  echo "Expecting to find Dockerfile in current directory ... not found!"
   exit 1
 fi
-tar czh --exclude '*~' --exclude 'var/*' --exclude 'KeyBox-jetty/*' . | docker build -t $prodimage -f build/Dockerfile -
+docker build -t $prodimage .
 docker tag -f $prodimage $IMAGE_NAME:latest

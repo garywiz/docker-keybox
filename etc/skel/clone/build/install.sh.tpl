@@ -7,7 +7,7 @@ rm -rf /apps; mkdir /apps
 
 # copy everything from setup to the root /apps except Dockerfile rebuild materials
 echo copying application files to /apps ...
-tar cf - --exclude ./build --exclude ./build.sh --exclude ./run.sh . | (cd /apps; tar xf -)
+tar cf - --exclude Dockerfile --exclude ./build --exclude ./build.sh --exclude ./run.sh . | (cd /apps; tar xf -)
 
 # update the version information
 mv /setup/build/new_version.inc /apps/etc/version.inc
