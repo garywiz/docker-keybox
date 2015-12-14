@@ -7,3 +7,5 @@ To get this message again:
 
 Or, for geeneral help on the image itself:
    docker run -i --rm %(PARENT_IMAGE) --task get-help
+
+Note: The default username is 'admin' with a password of 'changeme'.

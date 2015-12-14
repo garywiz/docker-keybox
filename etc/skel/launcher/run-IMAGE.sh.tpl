@@ -16,8 +16,8 @@ AUTHKEYS_REFRESH=120
 # Ping SSH servers this often as a keep alive
 SERVER_ALIVE_SECS=60
 
-# Enable two-factor authentication
-ENABLE_OTP=true
+# Enable two-factor authentication (either 'optional', 'required', 'disabled')
+CONFIG_OTP=optional
 
 # Enable key management.  If 'false' then this is just a bastion host for shell access.
 ENABLE_KEY_MANAGEMENT=true
@@ -31,9 +31,6 @@ FORCE_KEY_GENERATION=true
 ENABLE_INTERNAL_AUDIT=false
 # When internal auditing is enabled, this determines how many days audit entries will be kept
 DELETE_AUDIT_AFTER=90
-
-# Comment-out to provide a host which will be used for log4j logging.
-#AUDIT_LOG_APPENDER=
 
 # LOGGING Can be set to:
 #   stdout      - all logging goes to stdout (the docker way)
@@ -60,8 +57,7 @@ OPTIONS="\
   -e CONFIG_ENABLE_KEY_MANAGEMENT=$ENABLE_KEY_MANAGEMENT \
   -e CONFIG_FORCE_KEY_GENERATION=$FORCE_KEY_GENERATION \
   -e CONFIG_ENABLE_INTERNAL_AUDIT=$ENABLE_INTERNAL_AUDIT \
-  -e CONFIG_ENABLE_OTP=$ENABLE_OTP \
-  -e CONFIG_AUDIT_LOG_APPENDER=${AUDIT_LOG_APPENDER:-} \
+  -e CONFIG_OTP=$CONFIG_OTP \
   -e CONFIG_SERVER_ALIVE_SECS=$SERVER_ALIVE_SECS \
   -e CONFIG_DELETE_AUDIT_AFTER=$DELETE_AUDIT_AFTER \
   -p $EXT_PORT:8443"
