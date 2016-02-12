@@ -41,6 +41,7 @@ JETTY=/apps/KeyBox-jetty/jetty
 # assuring relative paths are correct.
 VAR_KBCONFIG=/apps/var/config/KeyBoxConfig.properties
 VAR_JETTY_START=/apps/var/config/jetty-start.ini
+VAR_L4JCONFIG=/apps/var/config/log4j.xml
 
 # We need to create a symlink to the /var/config/KeyBoxConfig.properties file, since this
 # will need to be writable.  But, the actual location may vary based upon container
@@ -49,6 +50,12 @@ VAR_JETTY_START=/apps/var/config/jetty-start.ini
 cd $JETTY/keybox/WEB-INF/classes
 rm -rf KeyBoxConfig.properties
 ln -s $(relpath $VAR_KBCONFIG)
+
+# same with the log4j config
+
+cd $JETTY/keybox/WEB-INF/classes
+rm -rf log4j.xml
+ln -s $(relpath $VAR_L4JCONFIG)
 
 # Same with jetty startup so we can put the keystore in attached storage
 

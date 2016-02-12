@@ -21,9 +21,17 @@ mkdir -p $VAR_DIR/config
 
 VAR_KBCONFIG=$VAR_DIR/config/KeyBoxConfig.properties
 VAR_SSLXML=$VAR_DIR/config/jetty-start.ini
+VAR_L4JCONFIG=$VAR_DIR/config/log4j.xml
 
 tpl_envcp --overwrite $APPS_DIR/etc/KeyBoxConfig.properties.tpl $VAR_KBCONFIG
 tpl_envcp --overwrite $APPS_DIR/etc/jetty-start.ini.tpl $VAR_SSLXML
+
+# check if the log4j config file exist in external storage if it doesn't
+create it.
+
+if [ ! -e $VAR_L4JCONFIG ]; then
+    tpl_envcp --overwrite $APPS_DIR/etc/log4j.xml.tpl $VAR_L4JCONFIG
+fi
 
 # Now go ahead and fork off Jetty and keybox
 
