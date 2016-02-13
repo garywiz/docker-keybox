@@ -146,6 +146,13 @@ If your keys are not already in `PEM` format, you may need to convert them using
 
 **IMPORTANT**: You will also need to delete the `jetty.keystore` file in the same directory.   This will cause the container start-up scripts to recognize your new key and rebuild the Jetty keystore file for you automatically.
 
+#### log4j config
+
+the log4j can be used to send the audit logs to another location as well as the inbuilt h2 database, this is useful if you want to collect them in a log aggregation tool such as splunk or ELK,
+the default log4j.xml file will be created in the config directory when the contain is first created.
+
+once you have defined your logging config simply restart/recreate the container
+
 #### Re-run the container
 
 Once you've replaced the certificates, you can simply restart the old container, or create a new container using the same attached storage location.  Your new certificate will then be in use.
