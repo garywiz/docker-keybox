@@ -2,7 +2,7 @@ FROM chapdev/chaperone-alpinejava
 
 ADD . /setup/
 
-# Git tag version number format should be '2.84.01'.  This will trigger an automated build.
+# Git tag version number format should be '2.85.01'.  This will trigger an automated build.
 # The following version format is used within the Keybox distribution filename.
 ENV KEYBOX_VERSION=2.85_01
 

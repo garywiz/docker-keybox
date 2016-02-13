@@ -93,6 +93,17 @@ If this isn't suitable, there are two additional options that can be specified u
 
 **`CONFIG_LOGGING="syslog:hostname"`** - In this case, you need to specify `hostname` as the destination for logging.  The specified host must have a syslog-compatible daemon running on UDP port 514.
 
+### Customizing log4j configuration
+
+Audit logs are a special type of log different from the normal access and error logs that report on login activity.
+By default, they will be stored in the `logs` directory either within the image, or on attached storage.
+You can use your own log4j to send the audit logs to another location as well as the built-in database. 
+This is useful if you want to collect them in a log aggregation tool such as splunk or ELK.
+
+In order to customize the configuration, you will need to use attached storage (see above "Configuring Attached Storage").
+Once you do, the the default log4j.xml file will be created in the `config` directory.  You can modify it and restart
+the container to use your new configuration.
+
 ## Using Your Own SSL Keys
 
 By default, a self-signed SSL key will be generated automatically for you at start-up.  If attached storage is used, the key will be generated only once.  Otherwise, a new key will be created each time a new container starts.
@@ -145,13 +156,6 @@ So, if your site is going to be `https://keybox.example.com`, then make sure you
 If your keys are not already in `PEM` format, you may need to convert them using SSL as [this StackOverflow answer describes for PKCS12 keys](http://stackoverflow.com/questions/15144046/need-help-converting-p12-certificate-into-pem-using-openssl).
 
 **IMPORTANT**: You will also need to delete the `jetty.keystore` file in the same directory.   This will cause the container start-up scripts to recognize your new key and rebuild the Jetty keystore file for you automatically.
-
-#### log4j config
-
-the log4j can be used to send the audit logs to another location as well as the inbuilt h2 database, this is useful if you want to collect them in a log aggregation tool such as splunk or ELK,
-the default log4j.xml file will be created in the config directory when the contain is first created.
-
-once you have defined your logging config simply restart/recreate the container
 
 #### Re-run the container
 

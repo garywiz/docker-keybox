@@ -26,8 +26,8 @@ VAR_L4JCONFIG=$VAR_DIR/config/log4j.xml
 tpl_envcp --overwrite $APPS_DIR/etc/KeyBoxConfig.properties.tpl $VAR_KBCONFIG
 tpl_envcp --overwrite $APPS_DIR/etc/jetty-start.ini.tpl $VAR_SSLXML
 
-# check if the log4j config file exist in external storage if it doesn't
-create it.
+# Check if the log4j config file exists and create if it doesn't.  This
+# preserves any configuration that was customized in external storage.
 
 if [ ! -e $VAR_L4JCONFIG ]; then
     tpl_envcp --overwrite $APPS_DIR/etc/log4j.xml.tpl $VAR_L4JCONFIG
