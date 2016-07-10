@@ -1,5 +1,5 @@
 #
-# KeyBox - Version: 2.85.01
+# KeyBox - Version: 2.85.03
 #
 #
 #set to true to regenerate and import SSH keys
@@ -40,3 +40,15 @@ passwordComplexityMsg=Passwords must be 8 to 20 characters\, contain one digit\,
 clientIPHeader=
 #specify a external authentication module (ex: ldap-ol, ldap-ad).  Edit the jaas.conf to set connection details
 jaasModule=
+
+#H2 DB and Connection Pool settings
+#Path to the H2 DB file. Leave Blank to use default location which is ../WEB-INF/classes/keydb
+dbPath=
+#Max connections in the connection pool
+maxActive=25
+#When true, objects will be validated before being returned by the connection pool
+testOnBorrow=true
+#The minimum number of objects allowed in the connection pool before spawning new ones
+minIdle=2
+#The maximum amount of time (in milliseconds) to block before throwing an exception when the connection pool is exhausted
+maxWait=15000
